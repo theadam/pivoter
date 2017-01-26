@@ -2,12 +2,12 @@
 
 git checkout master
 git pull
-git checkout -B build
+git checkout -B gh-pages
 git reset --hard master
 
 npm install
 npm run build
-git add -f dist lib node_modules/todomvc-common/base.css node_modules/todomvc-app-css/index.css
+git add -f dist lib
 
 git commit -m "Adding build files"
 
