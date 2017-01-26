@@ -1,0 +1,15 @@
+#! /bin/bash
+
+git checkout master
+git pull
+git checkout -B build
+git reset --hard master
+
+npm install
+npm run build
+git add -f dist lib node_modules/todomvc-common/base.css node_modules/todomvc-app-css/index.css
+
+git commit -m "Adding build files"
+
+git push -f
+

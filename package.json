@@ -4,7 +4,13 @@
   "description": "A utility for creating pivot-table data from flat data",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "babel": "babel --out-dir lib src",
+    "build": "npm run babel && npm run example",
+    "clean": "rimraf dist lib",
+    "dev": "webpack-dev-server --hot --inline",
+    "example": "webpack",
+    "push-build": "./bin/push-build-branch"
   },
   "repository": {
     "type": "git",
