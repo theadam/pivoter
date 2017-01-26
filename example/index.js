@@ -51,13 +51,14 @@ function range(start, end, step = 1) {
   return a;
 }
 
-function leaves(data) {
-  return Object.keys(data).reduce((acc, title) => {
-    const value = data[title];
-    if (typeof value !== 'object') {
-      return [...acc, value === undefined ? '' : value];
+function leaves(data, points) {
+  return points.reduce((acc, point) => {
+    const value = data[point.title];
+    if (!point.subDataPoints) {
+      const formatter = point.formatter || (x => x);
+      return [...acc, value === undefined ? '' : formatter(value)];
     }
-    return [...acc, ...leaves(value)];
+    return [...acc, ...leaves(value, point.subDataPoints)];
   }, []);
 }
 
@@ -96,8 +97,8 @@ pivoter.subscribe((data, configFromPivoter) => {
 
     const key = toKey(row.path);
     const open = keyOpen(key);
-    const closeClass = (row.subGroups ? 'closed' : '');
-    const openClass = open ? 'open' : closeClass;
+    const classFromOpen = open ? 'open' : 'closed';
+    const openClass = row.subGroups ? classFromOpen : '';
     return `<tr class="group level-${row.level}">
       ${range(0, row.level).map(() => '<td></td>').join('')}
       <td class="group ${openClass}" data-path="${key}">${row.path.slice(-1)}</td>
@@ -117,7 +118,7 @@ pivoter.subscribe((data, configFromPivoter) => {
 
   const buttons = allGroups
     .filter(g => !config.groups.some(pg => pg.name === g.name))
-    .map(g => `<button>${g.name}</button>`);
+    .map(g => `<button class="btn btn-primary">${g.name}</button>`);
 
   document.getElementById('buttons').innerHTML = `${buttons.join('')}`;
 });
