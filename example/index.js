@@ -1,6 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, import/extensions */
 import Pivoter from 'pivoter';
 
+import input from './data.json';
+
+console.log(input);
+
 const subDataPoints = [
   { title: 'Quantity', value: x => x && x.quantity, formatter: x => x },
   { title: 'Amount', value: x => (x && (x.sum / x.count)) || 0, formatter: x => Number(x).toFixed(0) },
@@ -43,7 +47,7 @@ function reducer(data, row) {
   };
 }
 
-const pivoter = new Pivoter({ reducer, groups: [], dataPoints, input: window.data });
+const pivoter = new Pivoter({ reducer, groups: [], dataPoints, input });
 
 function range(start, end, step = 1) {
   const a = [];
