@@ -3,8 +3,6 @@ import Pivoter from 'pivoter';
 
 import input from './data.json';
 
-console.log(input);
-
 const subDataPoints = [
   { title: 'Quantity', value: x => x && x.quantity, formatter: x => x },
   { title: 'Amount', value: x => (x && (x.sum / x.count)) || 0, formatter: x => Number(x).toFixed(0) },
