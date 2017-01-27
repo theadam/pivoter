@@ -21,7 +21,6 @@ function buildConfig(config, newConfig) {
 }
 
 function stage3(config, data) {
-  console.log('Running stage 3');
   const sorter = getSorter(
     config.groups,
     config.groupSorts,
@@ -30,7 +29,7 @@ function stage3(config, data) {
   const flattened = flattenGroups(data.withPoints.groups, sorter);
   return {
     data: {
-      ...data,
+      total: data.total,
       flattened,
     },
     config,
@@ -38,7 +37,6 @@ function stage3(config, data) {
 }
 
 function stage2(config, data) {
-  console.log('Running Stage 2');
   const withPoints = addPoints(data.reduced, config.dataPoints);
   return stage3(config, {
     ...data,
@@ -48,7 +46,6 @@ function stage2(config, data) {
 }
 
 function stage1(config) {
-  console.log('Running Stage 1');
   return stage2(config, {
     reduced: reduceData(config.input, config.groups, config.reducer, config.initialValue),
   });
