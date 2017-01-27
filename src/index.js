@@ -29,7 +29,7 @@ function stage3(config, data) {
   const flattened = flattenGroups(data.withPoints.groups, sorter);
   return {
     data: {
-      total: data.total,
+      ...data,
       flattened,
     },
     config,
