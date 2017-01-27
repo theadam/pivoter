@@ -37,7 +37,7 @@ pivoter.update({ dataSortDir: 'desc' );
 
 ### Process Outline
 
-- Input data is grouped and reduced within groups.  The groups of data form a hierarchy of reduced data.  (See the example for a visual).  This is configured mainly by the values `reducer` and `groups` config values.  There is more information in the "Config Options" section.
+- Input data is grouped and reduced within groups.  The groups of data form a hierarchy of reduced data.  (See the example for a visual).  This is configured mainly by the `reducer` and `groups` config values.  There is more information in the "Config Options" section.
 - Data points are created from the raw reduced data in each group. This is configured by the `dataPoints` configuration value.  If none is provided, the reduced value is used.
 - Grouped data is flattened and sorted.  The sorting is handled by a few different keys.  They are outlined below in the "Config Options" section.
 
