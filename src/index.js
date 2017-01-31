@@ -1,11 +1,11 @@
-import { hasAny } from './utils';
+import { needsChange } from './utils';
 import { addPoints } from './points';
 import { reduceData } from './reduce';
 import { getSorter, toDataSortWith } from './sort';
 import { flattenGroups, flattenGroup } from './flatten';
 
 function handleSorts(baseConfig, newConfig) {
-  if (!hasAny(newConfig, ['groupSorts', 'dataSortWith', 'dataSortBy'])) return baseConfig;
+  if (!needsChange(baseConfig, newConfig, ['groupSorts', 'dataSortWith', 'dataSortBy'])) return baseConfig;
   return { ...baseConfig, dataSortWith: undefined, dataSortBy: undefined, groupSorts: undefined };
 }
 
@@ -54,16 +54,16 @@ function stage1(config) {
   });
 }
 
-function getStage(newConfig) {
-  if (hasAny(newConfig, ['input', 'groups', 'reducer', 'initialValue'])) {
+function getStage(config, newConfig) {
+  if (needsChange(config, newConfig, ['input', 'groups', 'reducer', 'initialValue'])) {
     return stage1;
-  } else if (hasAny(newConfig, ['dataPoints'])) {
+  } else if (needsChange(config, newConfig, ['dataPoints'])) {
     return stage2;
-  } else if (hasAny(newConfig, ['groupSorts', 'dataSortWith', 'dataSortBy', 'dataSortDir'])) {
+  } else if (needsChange(config, newConfig, ['groupSorts', 'dataSortWith', 'dataSortBy', 'dataSortDir'])) {
     return stage3;
   }
 
-  return (config, data) => ({ data, config });
+  return (conf, data) => ({ data, config: conf });
 }
 
 export function pivot(config, data, stage = stage1) {
@@ -77,10 +77,10 @@ export default function Pivoter(baseConfig) {
 
   const pivoter = {
     update(newConfig = {}) {
-      config = buildConfig(config, newConfig);
+      const built = buildConfig(config, newConfig);
 
-      const stage = getStage(newConfig);
-      const result = pivot(config, data, stage);
+      const stage = getStage(config, built);
+      const result = pivot(built, data, stage);
 
       config = result.config;
       data = result.data;
