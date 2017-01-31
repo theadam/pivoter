@@ -2,7 +2,7 @@
   "name": "pivoter",
   "version": "0.0.1",
   "description": "A utility for creating pivot-table data from flat data",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "mocha",
     "babel": "babel --out-dir lib src",
