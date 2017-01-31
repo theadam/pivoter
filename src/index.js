@@ -2,20 +2,23 @@ import { hasAny } from './utils';
 import { addPoints } from './points';
 import { reduceData } from './reduce';
 import { getSorter, toDataSortWith } from './sort';
-import { flattenGroups } from './flatten';
+import { flattenGroups, flattenGroup } from './flatten';
 
 function handleSorts(baseConfig, newConfig) {
   if (!hasAny(newConfig, ['groupSorts', 'dataSortWith', 'dataSortBy'])) return baseConfig;
   return { ...baseConfig, dataSortWith: undefined, dataSortBy: undefined, groupSorts: undefined };
 }
 
-function addInitialValue(config) {
-  if (config.initialValue !== undefined) return config;
-  return { ...config, initialValue: {} };
+function addDefaults({ initialValue = {}, flattener = flattenGroup, ...rest }) {
+  return {
+    ...rest,
+    flattener,
+    initialValue,
+  };
 }
 
 function buildConfig(config, newConfig) {
-  return addInitialValue(Object.keys(newConfig).reduce((acc, k) => (
+  return addDefaults(Object.keys(newConfig).reduce((acc, k) => (
     { ...acc, [k]: newConfig[k] }
   ), handleSorts(config, newConfig)));
 }
@@ -26,7 +29,7 @@ function stage3(config, data) {
     config.groupSorts,
     toDataSortWith(config.dataSortWith, config.dataSortBy, config.dataSortDir),
   );
-  const flattened = flattenGroups(data.withPoints.groups, sorter);
+  const flattened = flattenGroups(data.withPoints.groups, sorter, config.flattener);
   return {
     data: {
       ...data,
