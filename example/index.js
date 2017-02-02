@@ -112,7 +112,7 @@ pivoter.subscribe((data, configFromPivoter) => {
   const footer = `<tr>
     ${config.groups.length > 0 ? '<td>Grand Total</td>' : ''}
     ${range(0, config.groups.length - 1).map(() => '<td></td>').join('')}
-    ${leaves(data.total, dataPoints).map(l => `<td class="footer-data">${l}</td>`).join('')}
+    ${leaves(data.total.data, dataPoints).map(l => `<td class="footer-data">${l}</td>`).join('')}
   </tr>
   `;
 

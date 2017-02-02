@@ -35,19 +35,29 @@ pivoter.subscribe(function(result, config) {
 pivoter.update({ dataSortDir: 'desc' );
 ```
 
-### Process Outline
+## Process Outline
 
 - Input data is grouped and reduced within groups.  The groups of data form a hierarchy of reduced data.  (See the example for a visual).  This is configured mainly by the `reducer` and `groups` config values.  There is more information in the "Config Options" section.
 - Data points are created from the raw reduced data in each group. This is configured by the `dataPoints` configuration value.  If none is provided, the reduced value is used.
 - Grouped data is flattened and sorted.  The sorting is handled by a few different keys.  They are outlined below in the "Config Options" section.
 
-The result of the process is an object with these keys
+## Result
 
-#### total
+The result of pivoting the data is an object with these keys
 
-The value of the total set of input data reduced and converted to data points.
+### total
 
-#### flattened
+Contains:
+
+##### reduced
+
+All of the input reduced
+
+##### data
+
+The data points of all of the input
+
+### flattened
 
 The final flattened data as an array.  This can be used for the main content of a pivot table view.
 
@@ -55,11 +65,11 @@ Each entry in the array is an object that contains:
 
 ##### path
 
-The path of this data in the hierarchy
+The path of this group in the hierarchy
 
 ##### level
 
-The level of the data in in the hierarchy
+The level of the group in in the hierarchy
 
 ##### data
 
@@ -69,15 +79,15 @@ The data points of this group of input
 
 An array of all of the original input points that went into this group
 
-### Config Options
+## Config Options
 
-#### input
+### input
 
 **Type**: `Array` (*required*)
 
 The data to perform grouping operations on
 
-#### groups
+### groups
 
 **Type**: `Array` (*required*)
 
@@ -92,13 +102,13 @@ const groups = {
 };
 ```
 
-#### reducer
+### reducer
 
 **Type**: `Function(r: Reduced, i: InputRow) => Reduced` (*required*)
 
 Takes in the previous Reduced value and a single row from the input and produces the new Reduced value.  This is how data gets combined within groups.
 
-#### initialValue
+### initialValue
 
 **Type**: `Reduced`
 
@@ -106,7 +116,7 @@ Takes in the previous Reduced value and a single row from the input and produces
 
 The default starting value when reducing groups of data.
 
-#### dataPoints
+### dataPoints
 
 **Type**: `Array`
 
@@ -144,7 +154,7 @@ The output data for this group would be
 { Monday: { Sales: 101 } }
 ```
 
-#### groupSorts
+### groupSorts
 
 **Type**: `Array`
 
@@ -163,7 +173,7 @@ const groups = {
 
 `['asc', 'desc']` will sort the top level data points by `firstName` ascending and the subGroups by `lastName` descending.
 
-#### dataSortBy
+### dataSortBy
 
 **Type**: `String | Array<String> | Function(d: Data) => Value`
 
@@ -179,7 +189,7 @@ Describes how to sort the data in each group.
 | Function | it takes the data as its argument and returns the value to sort on. | `data => data.name.first` |
 
 
-#### dataSortDir
+### dataSortDir
 
 **Type**: `'asc' | 'desc'`
 
@@ -187,7 +197,7 @@ Describes how to sort the data in each group.
 
 The direction to sort when using `dataSortBy`
 
-#### dataSortWith
+### dataSortWith
 
 **Type**: `Function(a: Data, b: Data) => (-1 | 0 | 1)`
 

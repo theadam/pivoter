@@ -44,7 +44,11 @@ function stage2(config, data) {
   return stage3(config, {
     ...data,
     withPoints,
-    ...withPoints, // { groups, total }
+    groups: withPoints.groups,
+    total: {
+      data: withPoints.total,
+      reduced: data.reduced.total,
+    },
   });
 }
 
