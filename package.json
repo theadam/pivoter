@@ -1,6 +1,6 @@
 {
   "name": "pivoter",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A utility for creating pivot-table data from flat data",
   "main": "./lib/index.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "clean": "rimraf dist lib",
     "dev": "webpack-dev-server --hot --inline",
     "example": "webpack",
-    "push-build": "./bin/push-build-branch"
+    "push-build": "./bin/push-build-branch",
+    "prepublish": "npm run babel"
   },
   "repository": {
     "type": "git",
