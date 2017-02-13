@@ -1,6 +1,6 @@
 {
   "name": "pivoter",
-  "version": "0.0.3",
+  "version": "0.0.4-beta",
   "description": "A utility for creating pivot-table data from flat data",
   "main": "./lib/index.js",
   "scripts": {

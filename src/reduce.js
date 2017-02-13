@@ -1,7 +1,7 @@
-function makeGroupReducer(groups, reduce, basePath = []) {
+function makeGroupReducer(groups, reduce, initialValue, basePath = []) {
   const [hg, ...tg] = groups;
   const next = tg.length ?
-    (path => makeGroupReducer(tg, reduce, path)) :
+    (path => makeGroupReducer(tg, reduce, initialValue, path)) :
     () => () => undefined;
 
   return function groupReducer(acc, { point, projection }) {
@@ -11,7 +11,7 @@ function makeGroupReducer(groups, reduce, basePath = []) {
     return {
       ...acc,
       [key]: {
-        reduced: reduce(prev.reduced || {}, point),
+        reduced: reduce(prev.reduced || initialValue, point),
         path,
         points: (prev.points || []).concat([point]),
         projection,
@@ -44,7 +44,7 @@ function combineReducers(obj) {
 export function reduceData(data, groups, reducer, initialValue) {
   const projector = projectGroups(groups);
 
-  const groupReducer = makeGroupReducer(groups, reducer);
+  const groupReducer = makeGroupReducer(groups, reducer, initialValue);
   const projectedGroupReducer = function projectedReducer(acc, v) {
     if (groups.length === 0) return acc;
     const projected = projector(v);
