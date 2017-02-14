@@ -70,9 +70,14 @@ function getStage(config, newConfig) {
   return (conf, data) => ({ data, config: conf });
 }
 
-export function pivot(config, data, stage = stage1) {
+export function pivotFrom(config, data, stage) {
   return stage(config, data);
 }
+
+export function pivot(config, data) {
+  return pivotFrom(addDefaults(config), data, stage1);
+}
+
 
 export default function Pivoter(baseConfig) {
   let listeners = [];
@@ -84,7 +89,7 @@ export default function Pivoter(baseConfig) {
       const built = buildConfig(config, newConfig);
 
       const stage = getStage(config, built);
-      const result = pivot(built, data, stage);
+      const result = pivotFrom(built, data, stage);
 
       config = result.config;
       data = result.data;

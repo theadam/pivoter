@@ -45,7 +45,10 @@ function reducer(data, row) {
   };
 }
 
-const pivoter = new Pivoter({ reducer, groups: [], dataPoints, input });
+
+const initialValue = { total: { quantity: 400 } };
+
+const pivoter = new Pivoter({ reducer, groups: [], dataPoints, input, initialValue });
 
 function range(start, end, step = 1) {
   const a = [];

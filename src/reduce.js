@@ -56,5 +56,6 @@ export function reduceData(data, groups, reducer, initialValue) {
     groups: projectedGroupReducer,
   });
 
-  return data.reduce(combined, { total: initialValue, groups: initialValue });
+  return data.reduce(combined, { total: initialValue, groups: {} });
 }
+
